@@ -1,10 +1,14 @@
 import { createElement, formatPrice, renderStars } from "../utils.js";
 import { ProductCard } from "./ProductCard.js";
-import { CardHeader, CardTitle, CardDescription, CardContent, CardImage } from "./Card.js";
+import { CardHeader, CardTitle, CardContent, CardImage } from "./ui/Card.js";
 import { withImageSwap } from "./withImageSwap.js";
 import { productsData } from "../../data/products.js";
+import { Button } from "./ui/Button.js";
 
 export function ProductList() {
+  const initialProductCount = 4;
+  let currentStartIndex = 0;
+
   const productCards = productsData.map((product) =>
     ProductCard({
       customLayout: () => [
@@ -14,8 +18,8 @@ export function ProductList() {
           },
           createElement(
             "div",
-            { class: "relative h-full max-h-72" },
-            withImageSwap(CardImage, { src: product.imageSrc, alt: product.imageAlt, class: "flex-1 h-full" }),
+            { class: "relative h-full w-full" },
+            withImageSwap(CardImage, { src: product.imageSrc, alt: product.imageAlt, class: "w-full h-full md:h-96" }),
             product.label
               ? createElement(
                   "span",
@@ -50,38 +54,81 @@ export function ProductList() {
             "div",
             { class: "flex items-center" },
             ...renderStars(product.rating),
-            createElement("span", { class: "font-semibold text-gray-400 ml-2 text-xs" }, `${product.reviews} Reviews`)
+            createElement("span", { class: "font-semibold text-gray-400 ml-2 text-xs line-clamp-1" }, `${product.reviews} Reviews`)
           ),
           createElement("p", { class: "text-gray-800 text-sm font-semibold tracking-wider" }, formatPrice(product.price))
         ),
       ],
-      class: "snap-always snap-center border-none shadow-none w-full md:min-w-80 justify-between",
+      class: "snap-always snap-center",
     })
   );
 
   const productContainer = createElement(
     "div",
     {
-      class:
-        "product-list flex h-full w-full md:snap-x md:snap-mandatory md:overflow-x-auto gap-4 md:overflow-x-hidden custom-scrollbar h-full md:max-h-96",
+      class: "product-list grid grid-cols-2 grid-rows-2 gap-4 md:flex md:flex-row md:snap-x md:snap-mandatory custom-scrollbar h-full",
     },
     ...productCards
   );
 
-  const showMoreButton = createElement(
-    "button",
+  const showMoreButton = Button(
     {
       id: "show-more",
       class: "block md:hidden mt-6 bg-black text-white px-8 py-3 flex items-center justify-center text-sm font-semibold rounded-full w-full",
+      onclick: () => {
+        currentStartIndex = (currentStartIndex + initialProductCount) % productsData.length;
+        updateProductContainer(productContainer, currentStartIndex, initialProductCount, productsData, productCards);
+      },
     },
     "Show More"
   );
 
+  const updateProductContainer = (startIndex, count) => {
+    // Clear the container
+    productContainer.innerHTML = "";
+
+    // Get the new set of products
+    const newProducts = productsData.slice(startIndex, startIndex + count);
+
+    // If there are less than 'count' products remaining, get the remaining products from the start
+    if (newProducts.length < count) {
+      newProducts.push(...productsData.slice(0, count - newProducts.length));
+    }
+
+    // Add the new set of products to the container
+    newProducts.forEach((_, index) => {
+      productContainer.appendChild(productCards[(startIndex + index) % productsData.length]);
+    });
+  };
+
   showMoreButton.addEventListener("click", () => {
-    const hiddenProducts = document.querySelectorAll(".product-card.hidden");
-    hiddenProducts.forEach((product) => product.classList.remove("hidden"));
-    showMoreButton.classList.add("hidden");
+    currentStartIndex = (currentStartIndex + initialProductCount) % productsData.length;
+    updateProductContainer(currentStartIndex, initialProductCount);
   });
 
-  return createElement("main", null, productContainer, showMoreButton);
+  const mainElement = createElement("main", null, productContainer, showMoreButton);
+
+  // Initial visibility setup
+  window.addEventListener("load", () => {
+    if (window.innerWidth < 768) {
+      updateProductContainer(0, initialProductCount);
+    } else {
+      productCards.forEach((product) => product.classList.remove("hidden"));
+      productContainer.append(...productCards);
+    }
+  });
+
+  window.addEventListener("resize", () => {
+    if (window.innerWidth < 768) {
+      updateProductContainer(0, initialProductCount);
+      showMoreButton.classList.remove("hidden");
+    } else {
+      productCards.forEach((product) => product.classList.remove("hidden"));
+      productContainer.innerHTML = "";
+      productContainer.append(...productCards);
+      showMoreButton.classList.add("hidden");
+    }
+  });
+
+  return mainElement;
 }

@@ -6,7 +6,7 @@
  * on a specific library. Vanilla-style, basically.
  */
 
-import { createElement } from "../utils.js";
+import { createElement } from "../../utils.js";
 
 export function Card({ class: className, style, ...props }, ...children) {
   return createElement(
