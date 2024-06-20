@@ -10,6 +10,8 @@
 export function createElement(type, props = {}, ...children) {
   const element = document.createElement(type);
 
+  props = props || {};
+
   // Iterate over the properties object
   Object.keys(props).forEach((key) => {
     // Check if the property is an event listener (e.g., onClick, onSubmit, etc.)
@@ -30,6 +32,9 @@ export function createElement(type, props = {}, ...children) {
 
   // Iterate over the children and append them to the element
   children.forEach((child) => {
+    if (child === null || child === undefined) {
+      return;
+    }
     if (typeof child === "string") {
       // Append text nodes directly, if the child is a string
       element.appendChild(document.createTextNode(child));
@@ -52,4 +57,27 @@ export function createElement(type, props = {}, ...children) {
 export function render(element, container) {
   // Append the element to the container
   container.appendChild(element);
+}
+
+/**
+ * Formats a price value as a currency string.
+ * @param {number} price - The price value to format.
+ */
+
+export function formatPrice(price) {
+  return new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "USD",
+  }).format(price);
+}
+
+/**
+ * Renders a star rating based on the given rating value.
+ * @param {number} rating - The rating value to render.
+ */
+export function renderStars(rating) {
+  const maxStars = 5;
+  const blackStars = Array.from({ length: rating }, (_, i) => createElement("span", { class: "text-black" }, "★"));
+  const whiteStars = Array.from({ length: maxStars - rating }, (_, i) => createElement("span", { class: "text-gray-200" }, "★"));
+  return [...blackStars, ...whiteStars];
 }
