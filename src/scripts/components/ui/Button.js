@@ -9,5 +9,13 @@ import { createElement } from "../../utils.js";
  * @returns {HTMLElement} The created button element.
  */
 export function Button({ class: className, style, ...props }, ...children) {
-  return createElement("button", { class: `btn ${className}`, style, ...props }, ...children);
+  return createElement(
+    "button",
+    {
+      class: `block md:hidden bg-black text-white px-8 py-4 flex items-center justify-center text-sm font-semibold rounded-full w-full font-poppins ${className}`,
+      style,
+      ...props,
+    },
+    ...children
+  );
 }

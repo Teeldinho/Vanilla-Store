@@ -21,7 +21,7 @@ export function CardHeader({ class: className, style, ...props }, ...children) {
 }
 
 export function CardTitle({ class: className, style, ...props }, children) {
-  return createElement("h2", { class: `card-title font-bold text-lg ${className}`, style, ...props }, children);
+  return createElement("h2", { class: `card-title uppercase text-lg font-medium tracking-wider ${className}`, style, ...props }, children);
 }
 
 export function CardDescription({ class: className, style, ...props }, children) {
