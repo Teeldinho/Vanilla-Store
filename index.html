@@ -35,11 +35,28 @@
         },
       };
     </script>
+
+    <style>
+      .custom-scrollbar {
+        --scrollbar-height: 4px;
+        --scrollbar-thumb-height: 4px;
+      }
+      ::-webkit-scrollbar {
+        height: var(--scrollbar-height);
+        background: #f1f1f1;
+        border-radius: 8px;
+      }
+      ::-webkit-scrollbar-thumb {
+        background: #4a5568;
+        border-radius: 8px;
+      }
+    </style>
   </head>
   <body class="font-bebasNeue">
     <div class="flex items-center h-svh overflow-x-clip">
-      <div id="app" class="flex-1"></div>
+      <div id="app" class="flex-1 custom-scrollbar"></div>
     </div>
     <script type="module" src="../src/scripts/main.js"></script>
+    <script type="module" src="../src/scripts/scrollbar.js"></script>
   </body>
 </html>

@@ -50,7 +50,7 @@ export function ProductList() {
     "div",
     {
       class:
-        "w-full product-list grid grid-cols-2 grid-rows-2 md:max-w-[90vw] lg:max-w-[94vw] gap-4 md:gap-6 md:flex md:flex-row md:snap-x md:snap-mandatory h-full md:overflow-x-auto md:pb-16",
+        "w-full product-list grid grid-cols-2 grid-rows-2 md:max-w-[90vw] lg:max-w-[94vw] gap-4 md:gap-6 md:flex md:flex-row md:snap-x md:snap-mandatory h-full md:overflow-x-auto md:pb-12 custom-scrollbar",
     },
     ...productCards
   );
