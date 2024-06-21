@@ -16,7 +16,7 @@ export function ProductSection() {
 
   const section = createElement(
     "section",
-    { class: "p-2 md:p-0 md:pl-28 lg:pl-28 product-section flex flex-col gap-5 md:gap-10 w-full" },
+    { class: "h-full p-4 md:p-0 md:pl-28 lg:pl-28 product-section flex flex-col gap-5 md:gap-10 w-full" },
     sectionHeading,
     productList
   );

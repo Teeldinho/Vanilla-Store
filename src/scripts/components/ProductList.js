@@ -1,4 +1,4 @@
-import { createElement, formatPrice, renderStars } from "../utils.js";
+import { createElement, formatPrice, renderStars, updateProductContainer } from "../utils.js";
 import { ProductCard } from "./ProductCard.js";
 import { CardHeader, CardTitle, CardContent, CardImage } from "./ui/Card.js";
 import { withImageSwap } from "./withImageSwap.js";
@@ -42,7 +42,7 @@ export function ProductList() {
           createElement("p", { class: "text-gray-700 text-base font-semibold font-poppins" }, formatPrice(product.price))
         ),
       ],
-      class: "snap-always snap-start last:snap-end",
+      class: "snap-always snap-start last:snap-end h-full",
     })
   );
 
@@ -50,7 +50,7 @@ export function ProductList() {
     "div",
     {
       class:
-        "w-full product-list grid grid-cols-2 grid-rows-2 md:max-w-[90vw] lg:max-w-[94vw] gap-4 md:gap-6 md:flex md:flex-row md:snap-x md:snap-mandatory h-full md:overflow-x-auto md:pb-12 custom-scrollbar",
+        "w-full product-list grid grid-cols-2 md:max-w-[90vw] lg:max-w-[94vw] gap-4 md:gap-6 md:flex md:flex-row md:snap-x md:snap-mandatory h-full md:overflow-x-auto md:pb-12 custom-scrollbar",
     },
     ...productCards
   );
@@ -58,44 +58,49 @@ export function ProductList() {
   const showMoreButton = Button(
     {
       id: "show-more",
-      class: "mt-4",
+      class: "mt-5",
       onclick: () => {
-        currentStartIndex = (currentStartIndex + initialProductCount) % productsData.length;
-        updateProductContainer(productContainer, currentStartIndex, initialProductCount, productsData, productCards);
+        dropdownContainer.classList.toggle("hidden");
+        dropdownContainer.classList.toggle("block");
       },
     },
     "Show More"
   );
 
-  const updateProductContainer = (startIndex, count) => {
-    // Clear the container
-    productContainer.innerHTML = "";
+  const closeButton = Button(
+    {
+      id: "close-dropdown",
+      class: "absolute -top-0 right-2 z-50 max-w-fit ring-2 ring-white",
+      onclick: () => {
+        dropdownContainer.classList.toggle("hidden");
+        dropdownContainer.classList.toggle("block");
+      },
+    },
+    "X"
+  );
 
-    // Get the new set of products
-    const newProducts = productsData.slice(startIndex, startIndex + count);
+  const dropdownContainer = createElement(
+    "div",
+    {
+      class:
+        "hidden absolute top-0 left-0 pt-16 right-0 z-40 bg-white h-full p-2 grid grid-cols-2 grid grid-flow-row auto-rows-max gap-4 overflow-y-auto h-full min-h-[100svh] transform transition-transform duration-1000 ease-in-out",
+    },
+    closeButton,
+    ...productCards.slice(initialProductCount)
+  );
 
-    // If there are less than 'count' products remaining, get the remaining products from the start
-    if (newProducts.length < count) {
-      newProducts.push(...productsData.slice(0, count - newProducts.length));
-    }
-
-    // Add the new set of products to the container
-    newProducts.forEach((_, index) => {
-      productContainer.appendChild(productCards[(startIndex + index) % productsData.length]);
-    });
-  };
-
-  showMoreButton.addEventListener("click", () => {
-    currentStartIndex = (currentStartIndex + initialProductCount) % productsData.length;
-    updateProductContainer(currentStartIndex, initialProductCount);
-  });
-
-  const mainElement = createElement("main", null, productContainer, showMoreButton);
+  const mainElement = createElement(
+    "main",
+    { class: "relative overflow-x-hidden overflow-y-auto" },
+    productContainer,
+    showMoreButton,
+    dropdownContainer
+  );
 
   // Initial visibility setup
   window.addEventListener("load", () => {
     if (window.innerWidth < 768) {
-      updateProductContainer(0, initialProductCount);
+      updateProductContainer(productContainer, 0, initialProductCount, productsData, productCards);
     } else {
       productCards.forEach((product) => product.classList.remove("hidden"));
       productContainer.append(...productCards);
@@ -104,13 +109,14 @@ export function ProductList() {
 
   window.addEventListener("resize", () => {
     if (window.innerWidth < 768) {
-      updateProductContainer(0, initialProductCount);
+      updateProductContainer(productContainer, 0, initialProductCount, productsData, productCards);
       showMoreButton.classList.remove("hidden");
     } else {
       productCards.forEach((product) => product.classList.remove("hidden"));
       productContainer.innerHTML = "";
       productContainer.append(...productCards);
       showMoreButton.classList.add("hidden");
+      dropdownContainer.classList.add("hidden");
     }
   });
 

@@ -81,3 +81,29 @@ export function renderStars(rating) {
   const whiteStars = Array.from({ length: maxStars - rating }, (_, i) => createElement("span", { class: "text-gray-200" }, "★"));
   return [...blackStars, ...whiteStars];
 }
+
+/**
+ * Updates the product container with a new set of products.
+ * @param {HTMLElement} container - The container element to update.
+ * @param {number} startIndex - The starting index of the products to display.
+ * @param {number} count - The number of products to display.
+ * @param {Array} productsData - The array of product data.
+ * @param {Array} productCards - The array of product card elements.
+ */
+export function updateProductContainer(container, startIndex, count, productsData, productCards) {
+  // Clear the container
+  container.innerHTML = "";
+
+  // Get the new set of products
+  const newProducts = productsData.slice(startIndex, startIndex + count);
+
+  // If there are less than 'count' products remaining, get the remaining products from the start
+  if (newProducts.length < count) {
+    newProducts.push(...productsData.slice(0, count - newProducts.length));
+  }
+
+  // Add the new set of products to the container
+  newProducts.forEach((_, index) => {
+    container.appendChild(productCards[(startIndex + index) % productsData.length]);
+  });
+}
