@@ -1,6 +1,6 @@
 export const productsData = [
   {
-    imageSrc: "public/images/product1.jpg",
+    imageSrc: "/Vanilla-Store/public/images/product1.jpg",
     imageAlt: "Nike Soccer Shoe",
     title: "Nike Soccer Shoe",
     description: "High-performance soccer shoes with excellent grip and comfort.",
@@ -11,7 +11,7 @@ export const productsData = [
     discount: "10%",
   },
   {
-    imageSrc: "public/images/product2.jpg",
+    imageSrc: "/Vanilla-Store/public/images/product2.jpg",
     imageAlt: "Noise Cancelling Headphones",
     title: "Noise Cancelling Headphones",
     description: "Over-ear headphones with active noise cancellation and superior sound quality.",
@@ -22,7 +22,7 @@ export const productsData = [
     discount: "20%",
   },
   {
-    imageSrc: "public/images/product3.jpg",
+    imageSrc: "/Vanilla-Store/public/images/product3.jpg",
     imageAlt: "Chanel No. 5 Perfume",
     title: "Chanel No. 5 Perfume",
     description: "Classic and timeless fragrance for women.",
@@ -33,7 +33,7 @@ export const productsData = [
     discount: "15%",
   },
   {
-    imageSrc: "public/images/product4.jpg",
+    imageSrc: "/Vanilla-Store/public/images/product4.jpg",
     imageAlt: "Polaroid Camera",
     title: "Polaroid Camera",
     description: "Instant camera that prints photos instantly. Great for capturing memories.",
@@ -44,7 +44,7 @@ export const productsData = [
     discount: "5%",
   },
   {
-    imageSrc: "public/images/product5.jpg",
+    imageSrc: "/Vanilla-Store/public/images/product5.jpg",
     imageAlt: "PlayStation 4",
     title: "PlayStation 4",
     description: "Popular gaming console with a wide variety of games and accessories.",
@@ -55,7 +55,7 @@ export const productsData = [
     discount: "20%",
   },
   {
-    imageSrc: "public/images/product6.jpg",
+    imageSrc: "/Vanilla-Store/public/images/product6.jpg",
     imageAlt: "Nike Running Shoe",
     title: "Nike Running Shoe",
     description: "Lightweight running shoes designed for comfort and speed.",
@@ -66,7 +66,7 @@ export const productsData = [
     discount: "10%",
   },
   {
-    imageSrc: "public/images/product7.jpg",
+    imageSrc: "/Vanilla-Store/public/images/product7.jpg",
     imageAlt: "Nike Air Force 1",
     title: "Nike Air Force 1",
     description: "Classic basketball shoes with a timeless design.",
@@ -77,7 +77,7 @@ export const productsData = [
     discount: "5%",
   },
   {
-    imageSrc: "public/images/product8.jpg",
+    imageSrc: "/Vanilla-Store/public/images/product8.jpg",
     imageAlt: "Cassette Tape",
     title: "Cassette Tape",
     description: "Retro cassette tape for music lovers.",
@@ -88,7 +88,7 @@ export const productsData = [
     discount: undefined,
   },
   {
-    imageSrc: "public/images/product9.jpg",
+    imageSrc: "/Vanilla-Store/public/images/product9.jpg",
     imageAlt: "Cactus Plant",
     title: "Cactus Plant",
     description: "Small cactus plant in a terracotta pot.",
@@ -99,7 +99,7 @@ export const productsData = [
     discount: "15%",
   },
   {
-    imageSrc: "public/images/product10.jpg",
+    imageSrc: "/Vanilla-Store/public/images/product10.jpg",
     imageAlt: "Display Stands",
     title: "Display Stands",
     description: "Set of 4 white display stands for showcasing products.",
